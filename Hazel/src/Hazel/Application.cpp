@@ -1,16 +1,19 @@
 #include "Application.h"
 
+#include "Hazel/Event/ApplicationEvent.h"
+#include "Hazel/Log.h"
+
 namespace Hazel {
 
-	Application::Application() {
+	Application::Application() { }
 
-	}
+	Application::~Application() { }
 
-	Application::~Application() {
+	void Application::Run()
+	{
+		WindowResizeEvent e(1200, 720);
+		HZ_TRACE(e);
 
-	}
-
-	void Application::Run() {
 		while (true) {
 
 		}
