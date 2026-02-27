@@ -39,7 +39,3 @@ namespace Hazel {
 	};
 }
 
-class Windows
-{
-};
-
