@@ -1,8 +1,5 @@
 #pragma once
 
-// 夜空般深邃的瞳孔之中，正满溢着离别之雨
-// 被命运之潮推向了无底深渊的少女啊，就连悲怆之姿也美得令人窒息。
-
 #ifdef HZ_PLATFORM_WINDOWS
 	#ifdef HZ_BUILD_DLL
 		#define HAZEL_API __declspec(dllexport)
@@ -11,6 +8,10 @@
 	#endif
 #else
 	#error Hazel only supports for Windows!
+#endif
+
+#ifdef HZ_DEBUG
+	#define HZ_ENABLE_ASSERTS
 #endif
 
 #ifdef HZ_ENABLE_ASSERTS
@@ -22,3 +23,4 @@
 #endif
 
 #define BIT(x) (1 << x)
+#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
