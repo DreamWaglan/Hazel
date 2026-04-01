@@ -1,7 +1,7 @@
 #include "hzpch.h"
 #include "Buffer.h"
 
-#include "Hazel/Renderer/Renderer.h"
+#include "Renderer.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"
 
 #if HZ_PLATFORM_WINDOWS
@@ -14,8 +14,8 @@ namespace Hazel {
 	{
 		switch (Renderer::GetAPI())
 		{
-			case RendererAPI::None: HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supoorted!"); return nullptr;
-			case RendererAPI::OpenGL: return new OpenGLVertexBuffer(vertices, size);
+			case RendererAPI::API::None: HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supoorted!"); return nullptr;
+			case RendererAPI::API::OpenGL: return new OpenGLVertexBuffer(vertices, size);
 		}
 
 		HZ_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -26,8 +26,8 @@ namespace Hazel {
 	{
 		switch (Renderer::GetAPI())
 		{
-			case RendererAPI::None: HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supoorted!"); return nullptr;
-			case RendererAPI::OpenGL: return new OpenGLIndexBuffer(indices, count);
+			case RendererAPI::API::None: HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supoorted!"); return nullptr;
+			case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indices, count);
 		}
 
 		HZ_CORE_ASSERT(false, "Unknown RendererAPI!");
