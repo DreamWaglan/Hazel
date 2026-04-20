@@ -17,7 +17,6 @@ namespace Hazel
 
 	void OpenGLRendererAPI::DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)
 	{
-		vertexArray->Bind();
 		//GLenum indexType = vertexArray->GetIndexBuffers()->GetElementType();
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffers()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
