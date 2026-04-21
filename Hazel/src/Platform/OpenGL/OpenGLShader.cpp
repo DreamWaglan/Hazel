@@ -1,27 +1,12 @@
 #include "hzpch.h"
-#include "Shader.h"
+#include "OpenGLShader.h"
 
-#include "Renderer.h"
-#include "Platform/OpenGL/OpenGLShader.h"
-
-//#include <glad/glad.h>
-//#include <glm/gtc/type_ptr.hpp>
+#include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Hazel {
 
-	Shader* Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc)
-	{
-		switch (Renderer::GetAPI())
-		{
-		case RendererAPI::API::None:	HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supoorted!"); return nullptr;
-		case RendererAPI::API::OpenGL:	return new OpenGLShader(vertexSrc, fragmentSrc);
-		}
-		return nullptr;
-	}
-
-	/*
-	 
-	Shader::Shader(const std::string& vertexSrc, const std::string& fragmentSrc)
+	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
 	{
 		// Create an empty vertex shader handle
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -126,7 +111,7 @@ namespace Hazel {
 
 			// In this simple program, we'll just leave
 			HZ_CORE_ERROR("{0}", infoLog.data());
-			HZ_CORE_ASSERT(false, "Shader link failure!")
+			HZ_CORE_ASSERT(false, "OpenGLShader link failure!")
 		}
 
 		// Always detach shaders after a successful link.
@@ -134,32 +119,60 @@ namespace Hazel {
 		glDetachShader(program, fragmentShader);
 	}
 
-	Shader::~Shader()
+	OpenGLShader::~OpenGLShader()
 	{
 		glDeleteProgram(m_RendererID);
 	}
 
-	void Shader::Bind() const
+	void OpenGLShader::Bind() const
 	{
 		glUseProgram(m_RendererID);
 	}
 
-	void Shader::Unbind() const
+	void OpenGLShader::Unbind() const
 	{
 		glUseProgram(0);
 	}
 
-	void Shader::UploadUniformFloat4(const std::string& name, const glm::vec4& value)
+	void OpenGLShader::UploadUniformInt(const std::string& name, int value)
+	{
+		GLint loaction = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform1i(loaction, value);
+	}
+
+	void OpenGLShader::UploadUniformFloat(const std::string& name, float value)
+	{
+		GLint loaction = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform1f(loaction, value);
+	}
+
+	void OpenGLShader::UploadUniformFloat2(const std::string& name, const glm::vec2& value)
+	{
+		GLint loaction = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform2f(loaction, value.x, value.y);
+	}
+
+	void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& value)
+	{
+		GLint loaction = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniform3f(loaction, value.x, value.y, value.z);
+	}
+
+	void OpenGLShader::UploadUniformFloat4(const std::string& name, const glm::vec4& value)
 	{
 		GLint loaction = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniform4f(loaction, value.x, value.y, value.z, value.w);
 	}
 
-	void Shader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
+	void OpenGLShader::UploadUniformMat3(const std::string& name, const glm::mat3& matrix)
+	{
+		GLint loaction = glGetUniformLocation(m_RendererID, name.c_str());
+		glUniformMatrix3fv(loaction, 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
+	void OpenGLShader::UploadUniformMat4(const std::string& name, const glm::mat4& matrix)
 	{
 		GLint loaction = glGetUniformLocation(m_RendererID, name.c_str());
 		glUniformMatrix4fv(loaction, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
-
-	*/
 }
